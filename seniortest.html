@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+</head>
+<body>
+
+    <h1>User Information Form</h1>
+
+    <form id="userForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        // Variables to store user information
+        let userName;
+        let userLocation;
+
+        // Function to handle form submission
+        function submitForm() {
+            // Get values from the form
+            userName = document.getElementById("name").value;
+            userLocation = document.getElementById("location").value;
+
+            // Display values in the console
+           // console.log("User Information Submitted:");
+            console.log("Name:", userName);
+            console.log("Location:", userLocation);
+        }
+        async function sendUserDataToZapier(userName, userLocation) {
+            try {
+                // Replace 'your-zapier-webhook-url' with the actual Zapier webhook URL
+                const zapierWebhookUrl = 'https://hooks.zapier.com/hooks/catch/17545420/3cb6zv1/';
+
+                const response = await fetch(zapierWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userName: userName,
+                        userLocation: userLocation,
+                    }),
+                });
+
+                if (response.ok) {
+                    console.log('Data sent to Zapier successfully');
+                    // If you want to do something after a successful request, you can add your code here
+                } else {
+                    console.error('Failed to send data to Zapier. Status:', response.status);
+                    // If you want to handle errors, you can add your code here
+                }
+            } catch (error) {
+                console.error('Error sending data to Zapier:', error);
+                // If there is a network error or any other issue, you can handle it here
+            }
+        }
+
+
+        // Call the function with your data
+        sendUserDataToZapier(userName, userLocation);
+
+
+    </script>
+
+</body>
+</html>
